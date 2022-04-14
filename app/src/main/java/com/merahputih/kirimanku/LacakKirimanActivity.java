@@ -12,8 +12,18 @@ import android.widget.Toast;
 import com.merahputih.kirimanku.adapters.JenisKurirSpinnerAdapter;
 import com.merahputih.kirimanku.oop_classes.JenisKurir;
 import com.merahputih.kirimanku.rajaongkir.RajaOngkirFunctions;
+import com.merahputih.kirimanku.retrofit_api.GetProvinceAPI;
+import com.merahputih.kirimanku.retrofit_api.RetrofitClient;
+import com.merahputih.kirimanku.retrofit_api.WaybillAPI;
 
+import java.io.IOException;
 import java.util.ArrayList;
+
+import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
 
 public class LacakKirimanActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
@@ -39,6 +49,65 @@ public class LacakKirimanActivity extends AppCompatActivity implements AdapterVi
 
         Log.i("RAJAONGKIR_CERT", RajaOngkirFunctions.getCertificate(this));
 
+        getData();
+
+    }
+
+    private void getData() {
+        Retrofit retrofit = RetrofitClient.getClient("https://pro.rajaongkir.com/api/");
+
+        WaybillAPI waybillAPI = retrofit.create(WaybillAPI.class);
+
+        Call<ResponseBody> call = waybillAPI.getWaybillData(
+                "002707225497",
+                "sicepat",
+                BuildConfig.ANDROID_KEY,
+                BuildConfig.RAJAONGKIR_API_KEY
+        );
+
+        call.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                try {
+                    Log.i("JSON RESPONSE", response.body().string());
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                Toast.makeText(LacakKirimanActivity.this, "Error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private void getDataProvinsi() {
+        Retrofit retrofit = RetrofitClient.getClient("https://pro.rajaongkir.com/api/");
+
+        GetProvinceAPI getProvinceAPI = retrofit.create(GetProvinceAPI.class);
+
+        Call<ResponseBody> call = getProvinceAPI.getProvince(
+                "6",
+                "1fe1d701d3586534ca5e233f01c2b21159473532;com.merahputih.kirimanku",
+                BuildConfig.RAJAONGKIR_API_KEY
+        );
+
+        call.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                try {
+                    Log.i("JSON RESPONSE", response.body().string());
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                Log.i("JSON ERROR", t.getMessage());
+            }
+        });
     }
 
     private void populateJenisKurirList() {
