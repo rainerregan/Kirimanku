@@ -4,6 +4,7 @@
     <color name="kirimankuRedVariant1">#A63637</color>
     <color name="kirimankuYellow">#FAFF7F</color>
     <color name="kirimankuYellowVariant1">#FF9800</color>
+    <color name="kirimankuSecondaryVariant2">#FF3D00</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
 </resources>
