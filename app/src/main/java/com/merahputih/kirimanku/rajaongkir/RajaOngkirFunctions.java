@@ -20,7 +20,7 @@ public class RajaOngkirFunctions {
      * @param context
      * @return
      */
-    private String getCertificate(Context context) {
+    public static String getCertificate(Context context) {
         String certificate = null;
         PackageManager pm = context.getPackageManager();
         String packageName = context.getPackageName();
