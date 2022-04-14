@@ -15,6 +15,8 @@ import com.merahputih.kirimanku.rajaongkir.RajaOngkirFunctions;
 import com.merahputih.kirimanku.retrofit_api.GetProvinceAPI;
 import com.merahputih.kirimanku.retrofit_api.RetrofitClient;
 import com.merahputih.kirimanku.retrofit_api.WaybillAPI;
+import com.merahputih.kirimanku.waybill_json_output_classes.Rajaongkir;
+import com.merahputih.kirimanku.waybill_json_output_classes.ResponseWaybill;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -58,27 +60,29 @@ public class LacakKirimanActivity extends AppCompatActivity implements AdapterVi
 
         WaybillAPI waybillAPI = retrofit.create(WaybillAPI.class);
 
-        Call<ResponseBody> call = waybillAPI.getWaybillData(
+        Call<ResponseWaybill> call = waybillAPI.getWaybillData(
                 "002707225497",
                 "sicepat",
                 BuildConfig.ANDROID_KEY,
                 BuildConfig.RAJAONGKIR_API_KEY
         );
 
-        call.enqueue(new Callback<ResponseBody>() {
+        call.enqueue(new Callback<ResponseWaybill>() {
+
             @Override
-            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+            public void onResponse(Call<ResponseWaybill> call, Response<ResponseWaybill> response) {
                 try {
-                    Log.i("JSON RESPONSE", response.body().string());
+                    Log.i("JSON RESPONSE", response.body().rajaongkir.toString());
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
 
             @Override
-            public void onFailure(Call<ResponseBody> call, Throwable t) {
+            public void onFailure(Call<ResponseWaybill> call, Throwable t) {
                 Toast.makeText(LacakKirimanActivity.this, "Error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
             }
+
         });
     }
 
