@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:gravity="center">
+
+    <ImageView
+        android:id="@+id/jenisKurirSpinnerItemImageView"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:src="@drawable/pos_indonesia"/>
+
+    <TextView
+        android:id="@+id/jenisKurirSpinnerItemTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Pos Indonesia"
+        android:layout_marginHorizontal="16dp"/>
+
+</LinearLayout>

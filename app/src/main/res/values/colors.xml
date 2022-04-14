@@ -6,6 +6,7 @@
     <color name="kirimankuYellowVariant1">#FF9800</color>
     <color name="kirimankuSecondaryVariant2">#FF3D00</color>
     <color name="grayLight">#EFEFEF</color>
+    <color name="gray">#5C5C5C</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
 </resources>
