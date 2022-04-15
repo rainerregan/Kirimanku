@@ -1,6 +1,12 @@
 package com.merahputih.kirimanku;
 
+import static java.security.AccessController.getContext;
+
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
+import androidx.recyclerview.widget.DividerItemDecoration;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.graphics.Color;
@@ -18,23 +24,38 @@ import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.merahputih.kirimanku.adapters.DetailRiwayatKirimanRecyclerAdapter;
 import com.merahputih.kirimanku.callbacks.GetDataLacakCallback;
 import com.merahputih.kirimanku.oop_classes.DataLacak;
 import com.merahputih.kirimanku.oop_classes.JenisKurir;
 import com.merahputih.kirimanku.rajaongkir.RajaOngkirFunctions;
+import com.merahputih.kirimanku.waybill_json_output_classes.Manifest;
 import com.merahputih.kirimanku.waybill_json_output_classes.Rajaongkir;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
 import aglibs.loading.skeleton.layout.SkeletonLinearLayout;
+import aglibs.loading.skeleton.layout.SkeletonRecyclerView;
 
 public class DetailLacakActivity extends AppCompatActivity implements View.OnClickListener {
+    // Recycler
+    private DetailRiwayatKirimanRecyclerAdapter adapter;
+    private List<Manifest> manifests;
+
     // Views
     TextView judulLacak;
     ImageView backButton;
-    TextView detailLacakNamaKurirTextView, detailLacakKodeKurirTextView, detailLacakNomorResiTextView;
+    TextView detailLacakNamaKurirTextView, detailLacakKodeKurirTextView, detailLacakNomorResiTextView,
+            jenisLayananKurirTextView, detailKirimanStatus, detailKirimanNamaPengirim, detailKirimanAlamatPengirim, detailKirimanNamaPenerima,
+            detailKirimanAlamatPenerima;
     ImageView detailLacakFotoKurirImageView;
 
     // Skeleton
-    SkeletonLinearLayout skeletonLayout1, skeletonLayout2;
+//    SkeletonLinearLayout skeletonLayout1, skeletonLayout2, skeletonLayout3;
+    RecyclerView recyclerViewDetail;
+    SkeletonLinearLayout skeletonParentLayout;
 
     // Kurir Data
     DataLacak dataLacak;
@@ -51,14 +72,34 @@ public class DetailLacakActivity extends AppCompatActivity implements View.OnCli
         detailLacakKodeKurirTextView = findViewById(R.id.detailLacakKodeKurirTextView);
         detailLacakNomorResiTextView = findViewById(R.id.detailLacakNomorResiTextView);
         detailLacakFotoKurirImageView = findViewById(R.id.detailLacakFotoKurirImageView);
-        skeletonLayout1 = findViewById(R.id.skeletonLayout1);
-        skeletonLayout2 = findViewById(R.id.skeletonLayout2);
+        jenisLayananKurirTextView = findViewById(R.id.jenisLayananKurirTextView);
+//        skeletonLayout1 = findViewById(R.id.skeletonLayout1);
+//        skeletonLayout2 = findViewById(R.id.skeletonLayout2);
+//        skeletonLayout3 = findViewById(R.id.skeletonLayout3);
+        skeletonParentLayout = findViewById(R.id.skeletonParentLayout);
+        recyclerViewDetail = findViewById(R.id.recyclerViewDetail);
+        detailKirimanStatus = findViewById(R.id.detailKirimanStatus);
+        detailKirimanNamaPengirim = findViewById(R.id.detailKirimanNamaPengirim);
+        detailKirimanAlamatPengirim = findViewById(R.id.detailKirimanAlamatPengirim);
+        detailKirimanNamaPenerima = findViewById(R.id.detailKirimanNamaPenerima);
+        detailKirimanAlamatPenerima = findViewById(R.id.detailKirimanAlamatPenerima);
 
         // Set Views Properties
         backButton.setOnClickListener(this);
+        recyclerViewDetail.setNestedScrollingEnabled(false);
+
+        // Set RecyclerView
+        setRecyclerView();
 
         // Get PutExtra
         getDetailData();
+    }
+
+    private void setRecyclerView() {
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+        recyclerViewDetail.setLayoutManager(layoutManager);
+        adapter = new DetailRiwayatKirimanRecyclerAdapter(manifests, this);
+        recyclerViewDetail.setAdapter(adapter);
     }
 
     /**
@@ -78,6 +119,8 @@ public class DetailLacakActivity extends AppCompatActivity implements View.OnCli
             public void onSuccess(Rajaongkir response) {
                 dataLacak = new DataLacak(waybill, dataKurir, response);
                 if(response.getStatus().getCode() == 200) {
+                    manifests = response.getResult().getManifest();
+                    Collections.reverse(manifests);
                     setData();
                 } else {
                     Toast.makeText(DetailLacakActivity.this, response.getStatus().getDescription(), Toast.LENGTH_SHORT).show();
@@ -130,12 +173,23 @@ public class DetailLacakActivity extends AppCompatActivity implements View.OnCli
         if(dataLacak != null) {
             // Set Header Info
             detailLacakNomorResiTextView.setText(dataLacak.getWaybill());
-            detailLacakNamaKurirTextView.setText("Nama Kurir: " + dataLacak.getDetailLacak().getResult().getSummary().getCourierName());
-            detailLacakKodeKurirTextView.setText("Kode Kurir: " + dataLacak.getDetailLacak().getResult().getSummary().getCourierCode());
+            detailLacakNamaKurirTextView.setText(dataLacak.getDetailLacak().getResult().getSummary().getCourierName());
+            detailLacakKodeKurirTextView.setText(dataLacak.getDetailLacak().getResult().getSummary().getCourierCode());
             detailLacakFotoKurirImageView.setImageResource(dataLacak.getKurirData().getImage());
+            jenisLayananKurirTextView.setText(dataLacak.getDetailLacak().getResult().getSummary().getServiceCode());
+            detailKirimanStatus.setText(dataLacak.getDetailLacak().getResult().getSummary().getStatus());
+            detailKirimanNamaPengirim.setText(dataLacak.getDetailLacak().getResult().getSummary().getShipperName());
+            detailKirimanAlamatPengirim.setText(dataLacak.getDetailLacak().getResult().getSummary().getOrigin());
+            detailKirimanNamaPenerima.setText(dataLacak.getDetailLacak().getResult().getSummary().getReceiverName());
+            detailKirimanAlamatPenerima.setText(dataLacak.getDetailLacak().getResult().getSummary().getDestination());
 
-            skeletonLayout1.stopLoading();
-            skeletonLayout2.stopLoading();
+            setRecyclerView();
+
+            skeletonParentLayout.stopLoading();
+//            skeletonLayout1.stopLoading();
+//            skeletonLayout2.stopLoading();
+//            skeletonLayout3.stopLoading();
+//            recyclerViewDetail.stopLoading();
         } else{
             Toast.makeText(this, "Terjadi kesalahan sistem", Toast.LENGTH_SHORT).show();
         }

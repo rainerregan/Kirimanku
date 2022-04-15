@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<aglibs.loading.skeleton.layout.SkeletonLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".DetailLacakActivity"
     android:orientation="vertical"
-    android:background="@color/grayLight">
+    android:background="@color/grayLight"
+    android:id="@+id/skeletonParentLayout">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -41,7 +42,7 @@
             app:layout_constraintTop_toTopOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <ScrollView
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -56,7 +57,7 @@
                 android:layout_marginHorizontal="16dp"
                 android:layout_marginTop="16dp">
 
-                <aglibs.loading.skeleton.layout.SkeletonLinearLayout
+                <LinearLayout
                     android:id="@+id/skeletonLayout1"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -67,18 +68,18 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="Nomor Resi"
-                        android:layout_marginBottom="8dp"/>
+                        android:layout_marginBottom="8dp"
+                        android:textStyle="bold"
+                        android:textSize="20sp"/>
 
                     <TextView
                         android:id="@+id/detailLacakNomorResiTextView"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:textStyle="bold"
-                        android:textSize="20sp"
                         android:text="Nomor Resi"/>
 
 
-                </aglibs.loading.skeleton.layout.SkeletonLinearLayout>
+                </LinearLayout>
 
             </androidx.cardview.widget.CardView>
 
@@ -88,7 +89,7 @@
                 android:layout_marginHorizontal="16dp"
                 android:layout_marginTop="16dp">
 
-                <aglibs.loading.skeleton.layout.SkeletonLinearLayout
+                <LinearLayout
                     android:id="@+id/skeletonLayout2"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -98,7 +99,9 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Detail Kiriman"/>
+                        android:text="Detail Kurir"
+                        android:textStyle="bold"
+                        android:textSize="20sp"/>
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -107,43 +110,165 @@
                         android:gravity="center"
                         android:layout_marginTop="8dp">
 
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            android:gravity="center"
+                            android:layout_weight="1"
+                            android:layout_marginEnd="8dp">
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="Nama Kurir"/>
+
+                            <TextView
+                                android:id="@+id/detailLacakNamaKurirTextView"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="XXX"
+                                android:layout_marginBottom="8dp"/>
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="Kode Kurir"/>
+                            <TextView
+                                android:id="@+id/detailLacakKodeKurirTextView"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="XXX"
+                                android:layout_marginBottom="8dp"/>
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="Jenis Layanan"/>
+                            <TextView
+                                android:id="@+id/jenisLayananKurirTextView"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="XXX"/>
+
+
+                        </LinearLayout>
+
                         <ImageView
                             android:id="@+id/detailLacakFotoKurirImageView"
                             android:layout_width="100dp"
                             android:layout_height="100dp"
                             android:src="@drawable/pos_indonesia"/>
 
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:orientation="vertical"
-                            android:gravity="center"
-                            android:layout_weight="1"
-                            android:layout_marginLeft="8dp">
-
-                            <TextView
-                                android:id="@+id/detailLacakNamaKurirTextView"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:text="Nama Kurir"/>
-
-                            <TextView
-                                android:id="@+id/detailLacakKodeKurirTextView"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:text="Kode Kurir"/>
-
-
-                        </LinearLayout>
-
                     </LinearLayout>
 
-                </aglibs.loading.skeleton.layout.SkeletonLinearLayout>
+                </LinearLayout>
+
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:layout_marginHorizontal="16dp">
+
+                <LinearLayout
+                    android:id="@+id/skeletonLayout3"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:padding="16dp">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Detail Kiriman"
+                        android:textStyle="bold"
+                        android:textSize="20sp"/>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Status"
+                        android:textStyle="bold"/>
+
+                    <TextView
+                        android:id="@+id/detailKirimanStatus"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="XXX"
+                        android:layout_marginBottom="8dp"/>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Pengirim"
+                        android:textStyle="bold"/>
+                    <TextView
+                        android:id="@+id/detailKirimanNamaPengirim"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Nama Pengirim"/>
+                    <TextView
+                        android:id="@+id/detailKirimanAlamatPengirim"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Alamat Pengirim"
+                        android:layout_marginBottom="8dp"/>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Penerima"
+                        android:textStyle="bold"/>
+
+                    <TextView
+                        android:id="@+id/detailKirimanNamaPenerima"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Nama Penerima"/>
+                    <TextView
+                        android:id="@+id/detailKirimanAlamatPenerima"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Alamat Penerima"
+                        android:layout_marginBottom="8dp"/>
+                </LinearLayout>
+
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:layout_marginHorizontal="16dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="16dp">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:text="Riwayat Kiriman"/>
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/recyclerViewDetail"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        />
+
+                </LinearLayout>
+
 
             </androidx.cardview.widget.CardView>
 
         </LinearLayout>
-    </ScrollView>
+    </androidx.core.widget.NestedScrollView>
 
 
-</LinearLayout>
+</aglibs.loading.skeleton.layout.SkeletonLinearLayout>
