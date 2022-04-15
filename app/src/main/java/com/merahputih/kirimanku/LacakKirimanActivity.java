@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -40,6 +41,7 @@ public class LacakKirimanActivity extends AppCompatActivity implements AdapterVi
     // Views
     EditText nomorResiEditText;
     Button lacakButton;
+    ImageView backButton;
 
     // Spinner Selected
     JenisKurir selectedJenisKurir;
@@ -53,6 +55,7 @@ public class LacakKirimanActivity extends AppCompatActivity implements AdapterVi
         jenisKurirSpinner = findViewById(R.id.jenisKurirSpinner);
         nomorResiEditText = findViewById(R.id.nomorResiEditText);
         lacakButton = findViewById(R.id.buttonLacak);
+        backButton = findViewById(R.id.backButton);
 
         // Populate List dengan Data Jenis Kurir
         populateJenisKurirList();
@@ -67,6 +70,13 @@ public class LacakKirimanActivity extends AppCompatActivity implements AdapterVi
             @Override
             public void onClick(View v) {
                 openWaybillDetailActivity();
+            }
+        });
+
+        backButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                LacakKirimanActivity.this.finish();
             }
         });
 

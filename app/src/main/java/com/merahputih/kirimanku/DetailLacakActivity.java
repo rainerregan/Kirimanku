@@ -53,7 +53,6 @@ public class DetailLacakActivity extends AppCompatActivity implements View.OnCli
     ImageView detailLacakFotoKurirImageView;
 
     // Skeleton
-//    SkeletonLinearLayout skeletonLayout1, skeletonLayout2, skeletonLayout3;
     RecyclerView recyclerViewDetail;
     SkeletonLinearLayout skeletonParentLayout;
 
@@ -73,9 +72,6 @@ public class DetailLacakActivity extends AppCompatActivity implements View.OnCli
         detailLacakNomorResiTextView = findViewById(R.id.detailLacakNomorResiTextView);
         detailLacakFotoKurirImageView = findViewById(R.id.detailLacakFotoKurirImageView);
         jenisLayananKurirTextView = findViewById(R.id.jenisLayananKurirTextView);
-//        skeletonLayout1 = findViewById(R.id.skeletonLayout1);
-//        skeletonLayout2 = findViewById(R.id.skeletonLayout2);
-//        skeletonLayout3 = findViewById(R.id.skeletonLayout3);
         skeletonParentLayout = findViewById(R.id.skeletonParentLayout);
         recyclerViewDetail = findViewById(R.id.recyclerViewDetail);
         detailKirimanStatus = findViewById(R.id.detailKirimanStatus);
@@ -186,10 +182,6 @@ public class DetailLacakActivity extends AppCompatActivity implements View.OnCli
             setRecyclerView();
 
             skeletonParentLayout.stopLoading();
-//            skeletonLayout1.stopLoading();
-//            skeletonLayout2.stopLoading();
-//            skeletonLayout3.stopLoading();
-//            recyclerViewDetail.stopLoading();
         } else{
             Toast.makeText(this, "Terjadi kesalahan sistem", Toast.LENGTH_SHORT).show();
         }
