@@ -2,14 +2,18 @@ package com.merahputih.kirimanku;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.merahputih.kirimanku.adapters.JenisKurirSpinnerAdapter;
+import com.merahputih.kirimanku.callbacks.GetDataLacakCallback;
 import com.merahputih.kirimanku.oop_classes.JenisKurir;
 import com.merahputih.kirimanku.rajaongkir.RajaOngkirFunctions;
 import com.merahputih.kirimanku.retrofit_api.GetProvinceAPI;
@@ -33,6 +37,13 @@ public class LacakKirimanActivity extends AppCompatActivity implements AdapterVi
     Spinner jenisKurirSpinner;
     JenisKurirSpinnerAdapter spinnerAdapter;
 
+    // Views
+    EditText nomorResiEditText;
+    Button lacakButton;
+
+    // Spinner Selected
+    JenisKurir selectedJenisKurir;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,6 +51,8 @@ public class LacakKirimanActivity extends AppCompatActivity implements AdapterVi
 
         // Set Views
         jenisKurirSpinner = findViewById(R.id.jenisKurirSpinner);
+        nomorResiEditText = findViewById(R.id.nomorResiEditText);
+        lacakButton = findViewById(R.id.buttonLacak);
 
         // Populate List dengan Data Jenis Kurir
         populateJenisKurirList();
@@ -49,69 +62,23 @@ public class LacakKirimanActivity extends AppCompatActivity implements AdapterVi
         jenisKurirSpinner.setAdapter(spinnerAdapter);
         jenisKurirSpinner.setOnItemSelectedListener(this);
 
-        Log.i("RAJAONGKIR_CERT", RajaOngkirFunctions.getCertificate(this));
-
-        getData();
+        // Set Click Listener untuk Button Lacak
+        lacakButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openWaybillDetailActivity();
+            }
+        });
 
     }
 
-    private void getData() {
-        Retrofit retrofit = RetrofitClient.getClient("https://pro.rajaongkir.com/api/");
-
-        WaybillAPI waybillAPI = retrofit.create(WaybillAPI.class);
-
-        Call<ResponseWaybill> call = waybillAPI.getWaybillData(
-                "002707225497",
-                "sicepat",
-                BuildConfig.ANDROID_KEY,
-                BuildConfig.RAJAONGKIR_API_KEY
-        );
-
-        call.enqueue(new Callback<ResponseWaybill>() {
-
-            @Override
-            public void onResponse(Call<ResponseWaybill> call, Response<ResponseWaybill> response) {
-                try {
-                    Log.i("JSON RESPONSE", response.body().rajaongkir.toString());
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-
-            @Override
-            public void onFailure(Call<ResponseWaybill> call, Throwable t) {
-                Toast.makeText(LacakKirimanActivity.this, "Error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
-            }
-
-        });
-    }
-
-    private void getDataProvinsi() {
-        Retrofit retrofit = RetrofitClient.getClient("https://pro.rajaongkir.com/api/");
-
-        GetProvinceAPI getProvinceAPI = retrofit.create(GetProvinceAPI.class);
-
-        Call<ResponseBody> call = getProvinceAPI.getProvince(
-                "6",
-                "1fe1d701d3586534ca5e233f01c2b21159473532;com.merahputih.kirimanku",
-                BuildConfig.RAJAONGKIR_API_KEY
-        );
-
-        call.enqueue(new Callback<ResponseBody>() {
-            @Override
-            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                try {
-                    Log.i("JSON RESPONSE", response.body().string());
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-
-            @Override
-            public void onFailure(Call<ResponseBody> call, Throwable t) {
-                Log.i("JSON ERROR", t.getMessage());
-            }
-        });
+    private void openWaybillDetailActivity() {
+        Intent detailLacakIntent = new Intent(LacakKirimanActivity.this, DetailLacakActivity.class);
+        detailLacakIntent.putExtra("waybill", nomorResiEditText.getText().toString());
+        detailLacakIntent.putExtra("kode", selectedJenisKurir.getKode());
+        detailLacakIntent.putExtra("kurir", selectedJenisKurir.getNama());
+        detailLacakIntent.putExtra("kurir_image", selectedJenisKurir.getImage());
+        startActivity(detailLacakIntent);
     }
 
     private void populateJenisKurirList() {
@@ -121,7 +88,8 @@ public class LacakKirimanActivity extends AppCompatActivity implements AdapterVi
 
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-        Toast.makeText(this, "Selected: " + jenisKurirList.get(position).getNama(), Toast.LENGTH_SHORT).show();
+//        Toast.makeText(this, "Selected: " + jenisKurirList.get(position).getNama(), Toast.LENGTH_SHORT).show();
+        selectedJenisKurir = jenisKurirList.get(position);
     }
 
     @Override
