@@ -82,7 +82,7 @@ public class RajaOngkirFunctions {
      * @param kodeKurir
      * @param callback
      */
-    private static void getWaybillData(String nomorResi, String kodeKurir, GetDataLacakCallback callback) {
+    public static void getWaybillData(String nomorResi, String kodeKurir, GetDataLacakCallback callback) {
         Retrofit retrofit = RetrofitClient.getClient("https://pro.rajaongkir.com/api/");
 
         WaybillAPI waybillAPI = retrofit.create(WaybillAPI.class);

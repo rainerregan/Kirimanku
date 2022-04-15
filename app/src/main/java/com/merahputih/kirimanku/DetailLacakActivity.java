@@ -3,13 +3,26 @@ package com.merahputih.kirimanku;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.Gravity;
+import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.PopupWindow;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.merahputih.kirimanku.callbacks.GetDataLacakCallback;
 import com.merahputih.kirimanku.oop_classes.DataLacak;
 import com.merahputih.kirimanku.oop_classes.JenisKurir;
+import com.merahputih.kirimanku.rajaongkir.RajaOngkirFunctions;
+import com.merahputih.kirimanku.waybill_json_output_classes.Rajaongkir;
 
 public class DetailLacakActivity extends AppCompatActivity implements View.OnClickListener {
     // Views
@@ -38,17 +51,13 @@ public class DetailLacakActivity extends AppCompatActivity implements View.OnCli
         backButton.setOnClickListener(this);
 
         // Get PutExtra
-        getKurirDataFromPutExtra();
-
-        // Set Data
-        setData();
-
+        getDetailData();
     }
 
     /**
      * Mendapatkan data kurir dan waybill dan dimasukkan dalam class di global
      */
-    private void getKurirDataFromPutExtra() {
+    private void getDetailData() {
         Intent intent = getIntent();
         String waybill = intent.getStringExtra("waybill");
         String kode = intent.getStringExtra("kode");
@@ -56,20 +65,70 @@ public class DetailLacakActivity extends AppCompatActivity implements View.OnCli
         Integer imageKurir = intent.getIntExtra("kurir_image", 0);
 
         JenisKurir dataKurir = new JenisKurir(kurir, imageKurir, kode);
+        
+        RajaOngkirFunctions.getWaybillData(waybill, kode, new GetDataLacakCallback() {
+            @Override
+            public void onSuccess(Rajaongkir response) {
+                dataLacak = new DataLacak(waybill, dataKurir, response);
+                if(response.getStatus().getCode() == 200) {
+                    setData();
+                } else {
+                    Toast.makeText(DetailLacakActivity.this, response.getStatus().getDescription(), Toast.LENGTH_SHORT).show();
+                }
+            }
 
-        dataLacak = new DataLacak(waybill, dataKurir);
+            @Override
+            public void onFailed(Exception e) {
+                Toast.makeText(DetailLacakActivity.this, "Data tidak ditemukan", Toast.LENGTH_SHORT).show();
+                openMessagePopUp(judulLacak, "Data tidak ditemukan");
+            }
+        });
+
+    }
+
+    private void openMessagePopUp(View view, String message){
+        // inflate the layout of the popup window
+        LayoutInflater inflater = (LayoutInflater)
+                getSystemService(LAYOUT_INFLATER_SERVICE);
+        View popupView = inflater.inflate(R.layout.message_pop_up_layout, null);
+
+        // create the popup window
+        int width = LinearLayout.LayoutParams.MATCH_PARENT;
+        int height = LinearLayout.LayoutParams.MATCH_PARENT;
+        boolean focusable = false; // lets taps outside the popup also dismiss it
+        final PopupWindow popupWindow = new PopupWindow(popupView, width, height, focusable);
+
+        TextView messageTextView = popupView.findViewById(R.id.popUpMessageTextView);
+        Button tutupButton = popupView.findViewById(R.id.closePopUpButton);
+        messageTextView.setText(message);
+
+        // show the popup window
+        // which view you pass in doesn't matter, it is only used for the window tolken
+        popupWindow.showAtLocation(view, Gravity.CENTER, 0, 0);
+
+        tutupButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                popupWindow.dismiss();
+                DetailLacakActivity.this.finish();
+            }
+        });
+
     }
 
     /**
      * Set data untuk halaman detail Lacak
      */
     private void setData() {
-        // Set Header Info
-        detailLacakNomorResiTextView.setText(dataLacak.getWaybill());
-        detailLacakNamaKurirTextView.setText("Nama Kurir: " + dataLacak.getKurirData().getNama());
-        detailLacakKodeKurirTextView.setText("Kode Kurir: " + dataLacak.getKurirData().getKode());
-        detailLacakFotoKurirImageView.setImageResource(dataLacak.getKurirData().getImage());
-
+        if(dataLacak != null) {
+            // Set Header Info
+            detailLacakNomorResiTextView.setText(dataLacak.getWaybill());
+            detailLacakNamaKurirTextView.setText("Nama Kurir: " + dataLacak.getDetailLacak().getResult().getSummary().getCourierName());
+            detailLacakKodeKurirTextView.setText("Kode Kurir: " + dataLacak.getDetailLacak().getResult().getSummary().getCourierCode());
+            detailLacakFotoKurirImageView.setImageResource(dataLacak.getKurirData().getImage());
+        } else{
+            Toast.makeText(this, "Terjadi kesalahan sistem", Toast.LENGTH_SHORT).show();
+        }
     }
 
     public void back(){

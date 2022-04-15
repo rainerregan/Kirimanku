@@ -53,7 +53,39 @@
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="16dp">
+                android:layout_marginHorizontal="16dp"
+                android:layout_marginTop="16dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:padding="16dp">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Nomor Resi"
+                        android:layout_marginBottom="8dp"/>
+
+                    <TextView
+                        android:id="@+id/detailLacakNomorResiTextView"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textStyle="bold"
+                        android:textSize="20sp"
+                        android:text="Nomor Resi"/>
+
+
+                </LinearLayout>
+
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="16dp"
+                android:layout_marginTop="16dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -86,16 +118,6 @@
                             android:gravity="center"
                             android:layout_weight="1"
                             android:layout_marginLeft="8dp">
-
-
-                            <TextView
-                                android:id="@+id/detailLacakNomorResiTextView"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:textStyle="bold"
-                                android:textSize="20sp"
-                                android:text="Nomor Resi"
-                                android:layout_marginBottom="8dp"/>
 
                             <TextView
                                 android:id="@+id/detailLacakNamaKurirTextView"

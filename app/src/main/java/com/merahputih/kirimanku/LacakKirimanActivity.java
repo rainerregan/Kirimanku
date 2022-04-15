@@ -84,6 +84,7 @@ public class LacakKirimanActivity extends AppCompatActivity implements AdapterVi
     private void populateJenisKurirList() {
         jenisKurirList.add(new JenisKurir("Pos Indonesia", R.drawable.pos_indonesia, "pos"));
         jenisKurirList.add(new JenisKurir("JNE", R.drawable.jne, "jne"));
+        jenisKurirList.add(new JenisKurir("SiCepat Express", R.drawable.sicepat, "sicepat"));
     }
 
     @Override
