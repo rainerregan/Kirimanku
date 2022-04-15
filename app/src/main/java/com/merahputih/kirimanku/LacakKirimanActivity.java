@@ -69,7 +69,9 @@ public class LacakKirimanActivity extends AppCompatActivity implements AdapterVi
         lacakButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                openWaybillDetailActivity();
+                if(validasiInput()){
+                    openWaybillDetailActivity();
+                }
             }
         });
 
@@ -80,6 +82,20 @@ public class LacakKirimanActivity extends AppCompatActivity implements AdapterVi
             }
         });
 
+    }
+
+    private boolean validasiInput() {
+        boolean status = true;
+
+        if(nomorResiEditText.getText().toString().trim().equalsIgnoreCase("")){
+            nomorResiEditText.setError("Mohon masukkan nomor resi");
+            status = false;
+        }else if(!nomorResiEditText.getText().toString().matches("^[a-zA-Z0-9]*$")){
+            nomorResiEditText.setError("Input hanya menerima angka dan huruf");
+            status = false;
+        }
+
+        return status;
     }
 
     private void openWaybillDetailActivity() {
@@ -103,7 +119,6 @@ public class LacakKirimanActivity extends AppCompatActivity implements AdapterVi
 
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-//        Toast.makeText(this, "Selected: " + jenisKurirList.get(position).getNama(), Toast.LENGTH_SHORT).show();
         selectedJenisKurir = jenisKurirList.get(position);
     }
 
