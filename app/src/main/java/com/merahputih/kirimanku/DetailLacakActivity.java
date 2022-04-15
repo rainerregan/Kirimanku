@@ -24,12 +24,17 @@ import com.merahputih.kirimanku.oop_classes.JenisKurir;
 import com.merahputih.kirimanku.rajaongkir.RajaOngkirFunctions;
 import com.merahputih.kirimanku.waybill_json_output_classes.Rajaongkir;
 
+import aglibs.loading.skeleton.layout.SkeletonLinearLayout;
+
 public class DetailLacakActivity extends AppCompatActivity implements View.OnClickListener {
     // Views
     TextView judulLacak;
     ImageView backButton;
     TextView detailLacakNamaKurirTextView, detailLacakKodeKurirTextView, detailLacakNomorResiTextView;
     ImageView detailLacakFotoKurirImageView;
+
+    // Skeleton
+    SkeletonLinearLayout skeletonLayout1, skeletonLayout2;
 
     // Kurir Data
     DataLacak dataLacak;
@@ -46,6 +51,8 @@ public class DetailLacakActivity extends AppCompatActivity implements View.OnCli
         detailLacakKodeKurirTextView = findViewById(R.id.detailLacakKodeKurirTextView);
         detailLacakNomorResiTextView = findViewById(R.id.detailLacakNomorResiTextView);
         detailLacakFotoKurirImageView = findViewById(R.id.detailLacakFotoKurirImageView);
+        skeletonLayout1 = findViewById(R.id.skeletonLayout1);
+        skeletonLayout2 = findViewById(R.id.skeletonLayout2);
 
         // Set Views Properties
         backButton.setOnClickListener(this);
@@ -126,6 +133,9 @@ public class DetailLacakActivity extends AppCompatActivity implements View.OnCli
             detailLacakNamaKurirTextView.setText("Nama Kurir: " + dataLacak.getDetailLacak().getResult().getSummary().getCourierName());
             detailLacakKodeKurirTextView.setText("Kode Kurir: " + dataLacak.getDetailLacak().getResult().getSummary().getCourierCode());
             detailLacakFotoKurirImageView.setImageResource(dataLacak.getKurirData().getImage());
+
+            skeletonLayout1.stopLoading();
+            skeletonLayout2.stopLoading();
         } else{
             Toast.makeText(this, "Terjadi kesalahan sistem", Toast.LENGTH_SHORT).show();
         }

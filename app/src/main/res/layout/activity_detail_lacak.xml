@@ -56,7 +56,8 @@
                 android:layout_marginHorizontal="16dp"
                 android:layout_marginTop="16dp">
 
-                <LinearLayout
+                <aglibs.loading.skeleton.layout.SkeletonLinearLayout
+                    android:id="@+id/skeletonLayout1"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:orientation="vertical"
@@ -77,7 +78,7 @@
                         android:text="Nomor Resi"/>
 
 
-                </LinearLayout>
+                </aglibs.loading.skeleton.layout.SkeletonLinearLayout>
 
             </androidx.cardview.widget.CardView>
 
@@ -87,7 +88,8 @@
                 android:layout_marginHorizontal="16dp"
                 android:layout_marginTop="16dp">
 
-                <LinearLayout
+                <aglibs.loading.skeleton.layout.SkeletonLinearLayout
+                    android:id="@+id/skeletonLayout2"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:padding="16dp"
@@ -136,7 +138,7 @@
 
                     </LinearLayout>
 
-                </LinearLayout>
+                </aglibs.loading.skeleton.layout.SkeletonLinearLayout>
 
             </androidx.cardview.widget.CardView>
 
