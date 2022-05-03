@@ -113,7 +113,7 @@ public class LacakKirimanActivity extends AppCompatActivity implements AdapterVi
         jenisKurirList.add(new JenisKurir("SiCepat Express", R.drawable.sicepat, "sicepat"));
         jenisKurirList.add(new JenisKurir("JNT", R.drawable.jnt, "jnt"));
         jenisKurirList.add(new JenisKurir("AnterAja", R.drawable.anteraja, "anteraja"));
-        jenisKurirList.add(new JenisKurir("Ninja", R.drawable.anteraja, "ninja"));
+        jenisKurirList.add(new JenisKurir("Ninja", R.drawable.ninja, "ninja"));
         jenisKurirList.add(new JenisKurir("Wahana", R.drawable.wahana, "wahana"));
     }
 
