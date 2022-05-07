@@ -8,6 +8,9 @@ import android.util.Log;
 
 import com.merahputih.kirimanku.BuildConfig;
 import com.merahputih.kirimanku.callbacks.GetDataLacakCallback;
+import com.merahputih.kirimanku.callbacks.GetDataProvinsiCallback;
+import com.merahputih.kirimanku.provinsi_json_output_classes.Rajaongkir;
+import com.merahputih.kirimanku.provinsi_json_output_classes.ResponseProvinsi;
 import com.merahputih.kirimanku.retrofit_api.GetProvinceAPI;
 import com.merahputih.kirimanku.retrofit_api.RetrofitClient;
 import com.merahputih.kirimanku.retrofit_api.WaybillAPI;
@@ -114,30 +117,35 @@ public class RajaOngkirFunctions {
         });
     }
 
-    private void getDataProvinsi() {
+    /**
+     * Get Data Provinsi List
+     */
+    public static void getDataProvinsi(GetDataProvinsiCallback callback) {
         Retrofit retrofit = RetrofitClient.getClient("https://pro.rajaongkir.com/api/");
 
         GetProvinceAPI getProvinceAPI = retrofit.create(GetProvinceAPI.class);
 
-        Call<ResponseBody> call = getProvinceAPI.getProvince(
-                "6",
-                "1fe1d701d3586534ca5e233f01c2b21159473532;com.merahputih.kirimanku",
+        Call<ResponseProvinsi> call = getProvinceAPI.getProvince(
+                BuildConfig.ANDROID_KEY,
                 BuildConfig.RAJAONGKIR_API_KEY
         );
 
-        call.enqueue(new Callback<ResponseBody>() {
+        call.enqueue(new Callback<ResponseProvinsi>() {
             @Override
-            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+            public void onResponse(Call<ResponseProvinsi> call, Response<ResponseProvinsi> response) {
                 try {
-                    Log.i("JSON RESPONSE", response.body().string());
-                } catch (IOException e) {
+//                    Log.i("JSON RESPONSE", response.body().getRajaongkir().toString());
+                    callback.onSuccess(response.body().getRajaongkir());
+                } catch (Exception e) {
                     e.printStackTrace();
+                    callback.onFailed(e);
                 }
             }
 
             @Override
-            public void onFailure(Call<ResponseBody> call, Throwable t) {
-                Log.i("JSON ERROR", t.getMessage());
+            public void onFailure(Call<ResponseProvinsi> call, Throwable t) {
+                Log.i("JSON ERROR", t.getMessage() + ": " + call.request().toString());
+                callback.onFailed(new Exception(t));
             }
         });
     }

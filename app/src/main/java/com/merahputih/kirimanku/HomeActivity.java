@@ -31,7 +31,8 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onClick(View v) {
         if(v == cekOngkirLayoutButton){
-            Toast.makeText(this, "Layanan ini belum tersedia, tunggu update selanjutnya", Toast.LENGTH_SHORT).show();
+//            Toast.makeText(this, "Layanan ini belum tersedia, tunggu update selanjutnya", Toast.LENGTH_SHORT).show();
+            startActivity(new Intent(HomeActivity.this, CekOngkirActivity.class));
         } else if(v == lacakKirimanLayoutButton){
             startActivity(new Intent(HomeActivity.this, LacakKirimanActivity.class));
         }
